@@ -1,0 +1,92 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #020617, #0f766e);
+    background-attachment: fixed;
+    color: #80CBC4;
+    line-height: 1.7;
+    padding: 60px;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+
+h1 {
+    font-size: 50px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center; /* Better than margin-left % for centering */
+    letter-spacing: -2px;
+    opacity: 0; /* Start invisible */
+    animation: fadeInUp 0.8s forwards;
+    white-space: nowrap;
+}
+
+h2 {
+    font-size: 30px;
+    color: #B2DFDB; /* Added a slight teal tint to headings for hierarchy */
+    margin-top: 40px;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+    opacity: 0; /* Start invisible */
+    animation: fadeInUp 0.8s forwards;
+    animation-delay: 0.2s; /* Starts slightly after h1 */
+}
+
+p {
+    font-size: 18px;
+    color: #e2e8f0;
+    margin-bottom: 20px;
+    opacity: 0; /* Start invisible */
+    animation: fadeInUp 0.8s forwards;
+    animation-delay: 0.4s; /* Starts after h2 */
+}
+
+
+ul {
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+li {
+    margin-top: 15px;
+    font-size: 18px;
+    list-style-type: square;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeInUp 0.8s forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
+}
+
+
+.Comp_Assemb{
+    margin-top: 30px;
+    margin-left: 25%;
+    height: 400px;
+    width: 700px;
+    animation: fadeInUp 0.8s forwards;
+    
+    
+}
+
+
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
