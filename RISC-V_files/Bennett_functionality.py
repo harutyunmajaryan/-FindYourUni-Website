@@ -1,0 +1,237 @@
+
+class BennettFunctionality:
+        def __init__(self,table_abi=None, table_rv32=None):
+            self.registers = {f"x{i}": 0 for i in range(32)}
+            self.pc = 0
+            self.register_mapping = ["ra","sp","zero","t0","t1","t2","t3","t4","t5","t6","s0","s1","s2","s3","s4","s5","s6","s7","s8","s9","s10","s11","a0","a1","a2","a3","a4","a5","a6","a7",
+                                     "x0","x1","x2","x3","x4","x5","x6","x7","x8","x9","x10","x11","x12","x13","x14","x15","x16","x17","x18","x19","x20","x21","x22","x23","x24","x25","x26","x27","x28","x29","x30","x31"]
+            self.table_abi = table_abi
+            self.table_rv32 = table_rv32
+
+
+#######################assign function##############################
+        def assign(self, line):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            line = line.replace("(", " ").replace(")", " ")
+            parts = line.split()
+
+            if len(parts) != 3:
+                return None
+
+            keyword = parts[1]
+
+            if keyword in ["defw", "defb"]:
+              if keyword == "defw" and parts[2].isdigit():
+                try:
+                    return {
+                        "opcode": keyword,
+                        "name": parts[0],
+                        "value": int(parts[2]),
+                    }
+
+                except (IndexError, ValueError):
+                    return None
+
+
+              elif keyword == "defb" and not parts[2].isdigit():
+                  try:
+                      return {
+                          "opcode": keyword,
+                          "name": parts[0],
+                          "string": str(parts[2]),
+                      }
+                  except (IndexError, ValueError):
+                      return None
+
+            return None
+#############################################################################
+
+
+#######################loading instructions##################################
+        def loading_instruction1(self, line):
+            line = line.split(";")[0].strip()
+            if not line or "," not in line: return None
+
+            line = line.replace(",", " ")
+            parts = line.split()
+
+            if len(parts) == 3 and parts[0] == "li":
+                target_reg = parts[1]
+                if target_reg not in self.register_mapping:
+                    return None
+
+                try:
+                    imm = int(parts[2])
+                    hex_val = f"{imm:08X}"
+
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_rv32.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                self.table_rv32.item(row_id, values=(target_reg, hex_val, "...."))
+                            break
+
+                    for row_id in self.table_abi.get_children():
+                        if self.table_abi.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0" or target_reg == "zero":
+                                self.table_abi.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                self.table_abi.item(row_id, values=(target_reg, hex_val, "...."))
+                            break
+
+                    return {"opcode": "li", "destination register": target_reg, "imm": imm}
+
+                except (IndexError, ValueError):
+                    return None
+            return None
+
+
+
+
+#############################################################################
+
+#######################arithmetic instruction function###################################
+
+        def arithmetic_instructions(self, line):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            if line.count(",") != 2:
+                return None
+
+            line = line.replace(",", " ")
+            parts = line.split()
+
+            if len(parts) != 4:
+                return None
+
+            keyword = parts[0]
+
+            if keyword not in ["addi", "subi", "add", "sub"]:
+                return None
+
+            if keyword in ["addi", "subi"]:
+                try:
+                    imm = int(parts[3])
+                except ValueError:
+                    return None
+
+                if parts[1] not in self.register_mapping or parts[2] not in self.register_mapping:
+                    return None
+
+                return {
+                    "opcode": keyword,
+                    "destination register": parts[1],
+                    "register2": parts[2],
+                    "imm": imm,
+                }
+
+            if parts[1] not in self.register_mapping or parts[2] not in self.register_mapping or parts[3] not in self.register_mapping:
+                return None
+
+            return {
+                "opcode": keyword,
+                "destination register": parts[1],
+                "register1": parts[2],
+                "register2": parts[3],
+            }
+
+
+
+
+###################jump branch################################
+        def j_branch(self, line, all_lines):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            parts = line.split()
+            if len(parts) != 2:
+                return None
+
+            if line.count(",") != 0:
+                return None
+
+            keyword = parts[0]
+            if keyword != "j":
+                return None
+            else:
+                try:
+                    label = parts[1]
+                    for index, code_line in enumerate(all_lines):
+                        clean_line = code_line.split(";")[0].strip()
+                        if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                break
+
+                    return {
+                        "keyword": keyword,
+                        "label": label,
+                    }
+
+                except (IndexError, ValueError):
+                    return None
+
+
+
+
+######################conditions################################
+        def beq_branch(self, line):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            parts = line.split()
+            if len(parts) != 4:
+                return None
+
+            if line.count(",") != 2:
+                return None
+
+            keyword  = parts[0]
+            if keyword not in ["beq","bge","bne","ble"]:
+                return None
+            else:
+                if keyword == "beq":
+                    if parts[1] not in self.register_mapping or parts[2] not in self.register_mapping:
+                        return None
+                    else:
+                        try:
+                            reg1 = parts[1]
+                            reg2 = parts[2]
+                            label = parts[3]
+                            return{
+                                "keyword": keyword,
+                                "register1": reg1,
+                                "register2": reg2,
+                                "label": label,
+                            }
+                        except (IndexError, ValueError):
+                            return None
+
+
+#########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
