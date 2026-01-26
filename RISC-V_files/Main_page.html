@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Main_page.css">
+    <title>RISC-V</title>
+   
+</head>
+<body>
+    <div class="background-mesh"></div>
+
+<div class="container fade-in">
+    <h1>Welcome to RISC-V World</h1>
+    <p>Master the Open Architecture: A Hands-On Assembly Explorer</p>
+    
+    <div class="selection-label">Choose a Module</div>
+    
+    <div class="button-container" id="buttons">
+        </div>
+
+    <div class="status-terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+        </div>
+        
+    </div>
+</div>
+
+    <script>
+
+const pages = {
+    "Live Coding": "code_editor.html",
+    "Study Materials": "study.html",
+    "About RISC-V": "CPU.html"
+};
+
+const container = document.getElementById('buttons');
+Object.keys(pages).forEach(name => {
+    const btn = document.createElement('button');
+    btn.textContent = name;
+    
+    btn.onclick = () => {
+        window.location.href = pages[name];
+    };
+    
+    container.appendChild(btn);
+});
+
+    </script>
+</body>
+</html>
