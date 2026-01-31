@@ -22,42 +22,53 @@ h1 {
     font-size: 50px;
     color: #ffffff;
     margin-bottom: 20px;
-    text-align: center; /* Better than margin-left % for centering */
+    text-align: center; 
     letter-spacing: -2px;
-    opacity: 0; /* Start invisible */
+    opacity: 0; 
     animation: fadeInUp 0.8s forwards;
     white-space: nowrap;
 }
 
 h2 {
     font-size: 30px;
-    color: #B2DFDB; /* Added a slight teal tint to headings for hierarchy */
+    color: #B2DFDB; 
     margin-top: 40px;
     margin-bottom: 10px;
     letter-spacing: -1px;
-    opacity: 0; /* Start invisible */
+    opacity: 0; 
     animation: fadeInUp 0.8s forwards;
-    animation-delay: 0.2s; /* Starts slightly after h1 */
+    animation-delay: 0.2s; 
+}
+
+h3 {
+    font-size: 20px;
+    color: #61d8c2; 
+    margin-top: 40px;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+    opacity: 0; 
+    animation: fadeInUp 0.8s forwards;
+    animation-delay: 0.2s; 
 }
 
 p {
     font-size: 18px;
     color: #e2e8f0;
-    margin-bottom: 20px;
-    opacity: 0; /* Start invisible */
+    margin-bottom: 15px;
+    opacity: 0; 
     animation: fadeInUp 0.8s forwards;
-    animation-delay: 0.4s; /* Starts after h2 */
+    animation-delay: 0.4s; 
 }
 
 
 ul {
     margin-left: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 li {
-    margin-top: 15px;
-    font-size: 18px;
+    margin-top: 0px;
+    font-size: 16px;
     list-style-type: square;
     color: #ffffff;
     opacity: 0;
@@ -75,6 +86,33 @@ li {
     animation: fadeInUp 0.8s forwards;
     
     
+}
+
+.image-row {
+  margin-top:100px;
+  display: flex;           
+  justify-content: center;  
+  gap: 25px;               
+  margin: 100px 0;          
+}
+
+.image-row img {
+  width: 45%;             
+  max-width: 500px;        
+  height: 420px;            
+  border-radius: 8px; 
+  animation: fadeInUp 0.8s forwards;     
+
+}
+
+.logic_gates{
+  margin: 100px;
+  margin-left:210px;
+  max-width: 1200px;                    
+  height: 600px;            
+  border-radius: 8px; 
+  animation: fadeInUp 0.8s forwards;
+
 }
 
 
