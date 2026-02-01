@@ -441,32 +441,38 @@ class BennettWindow:
         engine.pc = 0
         while engine.pc < len(lines):
             single_line = lines[engine.pc]
-            line = single_line.strip()
+            line = single_line.split(";")[0].strip()
 
             if not line or line.endswith(":"):
                 engine.pc += 1
                 continue
 
-            res_li = engine.loading_instruction1(line)
-            if res_li:
-                print(f"Executed: {res_li}")
+            parts = line.replace(",", " ").split()
+            opcode = parts[0].lower()
 
-            res_arith1 = engine.arithmetic_instructions(line)
-            res_assign = engine.assign(line)
-            res_loading_instruction1 = engine.loading_instruction1(line)
-            res_j_branch = engine.j_branch(line, all_lines=lines)
+            result = None
 
-            if res_arith1 is None and res_assign is None and res_loading_instruction1 is None and res_j_branch is None:
-                messagebox.showerror("Error", f"Unrecognized instruction(s), please fix your code: {line}")
-                break
-            else:
-                if res_arith1: print(f"Instruction: {res_arith1}")
-                if res_assign: print(f"Instruction: {res_assign}")
-                if res_loading_instruction1: print(f"Instruction: {res_loading_instruction1}")
+            if opcode == "li":
+                result = engine.loading_instruction1(line)
 
-                if res_j_branch:
-                    print(f"Instruction: {res_j_branch}")
+            elif opcode in ["add", "sub", "addi", "subi"]:
+                result = engine.arithmetic_instructions(line)
+
+            elif opcode in ["j", "beq", "bne", "bge", "blt"]:
+                result = engine.j_branch(line, all_lines=lines)
+                if result:
+                    print(f"Jump Executed: {result}")
                     continue
+
+            elif opcode in ["defw", "defb"]:
+                result = engine.assign(line)
+
+            if result:
+                print(f"Executed: {result}")
+            else:
+                messagebox.showerror("Error", f"Unrecognized instruction: {line}")
+                break
+
             engine.pc += 1
 
     ######################################################################################################
@@ -477,11 +483,6 @@ class BennettWindow:
 
     def run(self):
         self.main_window.mainloop()
-
-
-
-
-
 
 
 run = BennettWindow()
