@@ -292,8 +292,7 @@ class BennettFunctionality:
                                             value_in_source_reg = int(value_in_source_reg, 16)
                                             for row_id3 in self.table_abi.get_children():
                                                 if self.table_abi.item(row_id3)['values'][0] == source_register_2:
-                                                    value_in_source_reg_2 = str(
-                                                        self.table_abi.item(row_id3)['values'][1])
+                                                    value_in_source_reg_2 = str(self.table_abi.item(row_id3)['values'][1])
                                                     value_in_source_reg_2 = int(value_in_source_reg_2, 16)
                                                     result = value_in_source_reg - value_in_source_reg_2
                                                     result_in_hex = f"{result:08X}"
