@@ -458,11 +458,14 @@ class BennettWindow:
             elif opcode in ["add", "sub", "addi", "subi"]:
                 result = engine.arithmetic_instructions(line)
 
-            elif opcode in ["j", "beq", "bne", "bge", "blt"]:
+            elif opcode == "j":
                 result = engine.j_branch(line, all_lines=lines)
                 if result:
                     print(f"Jump Executed: {result}")
                     continue
+
+            elif opcode in ["sll","sla","sra"]:
+                result = engine.shifted_operations(line)
 
             elif opcode in ["defw", "defb"]:
                 result = engine.assign(line)
