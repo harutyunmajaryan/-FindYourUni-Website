@@ -1,4 +1,6 @@
 
+
+
 class BennettFunctionality:
         def __init__(self,table_abi=None, table_rv32=None):
             self.registers = {f"x{i}": 0 for i in range(32)}
@@ -53,7 +55,12 @@ class BennettFunctionality:
 #######################loading instructions##################################
         def loading_instruction1(self, line):
             line = line.split(";")[0].strip()
-            if not line or "," not in line: return None
+
+            if not line:
+                return None
+
+            if line.count(",") != 1:
+                return None
 
             line = line.replace(",", " ")
             parts = line.split()
@@ -488,54 +495,272 @@ class BennettFunctionality:
                 except (ValueError, IndexError):
                     return None
 
-
-
-
-
-
-
-
-
 #################################################################
 
 
 
-######################conditions################################
-        def beq_branch(self, line):
+######################conditions##################################
+        def conditional_non_zero_branch(self, line, all_lines):
             line = line.split(";")[0].strip()
             if not line:
-                return None
-
-            parts = line.split()
-            if len(parts) != 4:
                 return None
 
             if line.count(",") != 2:
                 return None
 
-            keyword  = parts[0]
-            if keyword not in ["beq","bge","bne","ble"]:
+            line = line.replace(",", " ")
+            parts = line.split()
+
+            if len(parts) != 4:
                 return None
-            else:
-                if keyword == "beq":
-                    if parts[1] not in self.register_mapping or parts[2] not in self.register_mapping:
-                        return None
-                    else:
-                        try:
-                            reg1 = parts[1]
-                            reg2 = parts[2]
-                            label = parts[3]
-                            return{
-                                "keyword": keyword,
-                                "register1": reg1,
-                                "register2": reg2,
-                                "label": label,
-                            }
-                        except (IndexError, ValueError):
-                            return None
+
+            keyword = parts[0]
+            if keyword not in ["bne","bge","ble","beq"]:
+                return None
+
+
+            should_jump = False
+            if keyword == "beq" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            for row_id2 in self.table_rv32.get_children():
+                                if self.table_rv32.item(row_id2)['values'][0] == register2:
+                                    value_in_register2 = str(self.table_rv32.item(row_id2)['values'][1])
+                                    value_in_register2_hex = int(value_in_register2, 16)
+                                    if value_in_register1_hex == value_in_register2_hex:
+                                        should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError,IndexError):
+                    return None
+
+            elif keyword == "bne" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            for row_id2 in self.table_rv32.get_children():
+                                if self.table_rv32.item(row_id2)['values'][0] == register2:
+                                    value_in_register2 = str(self.table_rv32.item(row_id2)['values'][1])
+                                    value_in_register2_hex = int(value_in_register2, 16)
+                                    if value_in_register1_hex != value_in_register2_hex:
+                                        should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+
+            elif keyword == "ble" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            for row_id2 in self.table_rv32.get_children():
+                                if self.table_rv32.item(row_id2)['values'][0] == register2:
+                                    value_in_register2 = str(self.table_rv32.item(row_id2)['values'][1])
+                                    value_in_register2_hex = int(value_in_register2, 16)
+                                    if value_in_register1_hex <= value_in_register2_hex:
+                                        should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+            elif keyword == "bge" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            for row_id2 in self.table_rv32.get_children():
+                                if self.table_rv32.item(row_id2)['values'][0] == register2:
+                                    value_in_register2 = str(self.table_rv32.item(row_id2)['values'][1])
+                                    value_in_register2_hex = int(value_in_register2, 16)
+                                    if value_in_register1_hex >= value_in_register2_hex:
+                                        should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+#########################################################################
+
+#########################################################################
+        def conditional_zero_branch(self,line,all_lines):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            if line.count(",") != 1:
+                return None
+
+            line = line.replace(",", " ")
+            parts = line.split()
+
+            if len(parts) != 3:
+                return None
+
+            keyword = parts[0]
+            if keyword not in ["bnez","bgez","bnez","blez"]:
+                return None
+
+            should_jump = False
+            if keyword == "beqz" and len(parts) == 3:
+                try:
+                    register1 = parts[1]
+                    label = parts[2]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            if value_in_register1_hex == 0:
+                                    should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+            elif keyword == "bnez" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    label = parts[2]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            if value_in_register1_hex != 0:
+                                    should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+
+            elif keyword == "blez" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            if value_in_register1_hex <= 0:
+                                    should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
+            elif keyword == "bge" and len(parts) == 4:
+                try:
+                    register1 = parts[1]
+                    register2 = parts[2]
+                    label = parts[3]
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == register1:
+                            value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
+                            value_in_register1_hex = int(value_in_register1, 16)
+                            if value_in_register1_hex >= 0:
+                                    should_jump = True
+
+                    if should_jump:
+                        for index, code_line in enumerate(all_lines):
+                            clean_line = code_line.split(";")[0].strip()
+                            if clean_line == f"{label}:" or clean_line == f"{label}":
+                                self.pc = index
+                                return True
+                    return False
+
+                except (ValueError, IndexError):
+                    return None
+
 
 
 #########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
