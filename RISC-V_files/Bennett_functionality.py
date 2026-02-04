@@ -340,6 +340,163 @@ class BennettFunctionality:
                 except (IndexError, ValueError):
                     return None
 
+#############################################################
+
+
+########################Shifts###############################
+        def shifted_operations(self,line):
+            line = line.split(";")[0].strip()
+            if not line:
+                return None
+
+            if line.count(",") != 2:
+                return None
+
+            line = line.replace(",", " ")
+            parts = line.split()
+
+            if len(parts) != 4:
+                return None
+
+            keyword = parts[0]
+
+            if keyword not in ["sll","sla","sra"]:
+                return None
+
+            if keyword == "sll" and len(parts) == 4:
+                target_reg = parts[1]
+                if target_reg not in self.register_mapping:
+                    return None
+                try:
+                    source_register = parts[2]
+                    imm = int(parts[3])
+
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_rv32.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_rv32.get_children():
+                                    if self.table_rv32.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_rv32.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg * pow(2,imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_rv32.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    for row_id in self.table_abi.get_children():
+                        if self.table_abi.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_abi.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_abi.get_children():
+                                    if self.table_abi.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_abi.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg * pow(2,imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_abi.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    return {"opcode": keyword, "destination register": target_reg, "source register": source_register, "immediate(shifts)": imm}
+
+                except (ValueError,IndexError):
+                    return None
+
+
+            elif keyword == "sla" and len(parts) == 4:
+                target_reg = parts[1]
+                if target_reg not in self.register_mapping:
+                    return None
+                try:
+                    source_register = parts[2]
+                    imm = int(parts[3])
+
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_rv32.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_rv32.get_children():
+                                    if self.table_rv32.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_rv32.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg * pow(2, imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_rv32.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    for row_id in self.table_abi.get_children():
+                        if self.table_abi.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_abi.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_abi.get_children():
+                                    if self.table_abi.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_abi.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg * pow(2,imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_abi.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    return {"opcode": keyword, "destination register": target_reg, "source register": source_register, "immediate(shifts)": imm}
+
+                except (ValueError, IndexError):
+                    return None
+
+
+            elif keyword == "sra" and len(parts) == 4:
+                target_reg = parts[1]
+                if target_reg not in self.register_mapping:
+                    return None
+                try:
+                    source_register = parts[2]
+                    imm = int(parts[3])
+
+                    for row_id in self.table_rv32.get_children():
+                        if self.table_rv32.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_rv32.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_rv32.get_children():
+                                    if self.table_rv32.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_rv32.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg // pow(2, imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_rv32.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    for row_id in self.table_abi.get_children():
+                        if self.table_abi.item(row_id)['values'][0] == target_reg:
+                            if target_reg == "x0":
+                                self.table_abi.item(row_id, values=(target_reg, "00000000", "...."))
+                            else:
+                                for row_id2 in self.table_abi.get_children():
+                                    if self.table_abi.item(row_id2)['values'][0] == source_register:
+                                        value_in_source_reg = str(self.table_abi.item(row_id2)['values'][1])
+                                        value_in_source_reg = int(value_in_source_reg, 16)
+                                        result = value_in_source_reg // pow(2,imm)
+                                        result_in_hex = f"{result:08X}"
+                                        self.table_abi.item(row_id, values=(target_reg, result_in_hex, "...."))
+                            break
+
+                    return {"opcode": keyword, "destination register": target_reg, "source register": source_register, "immediate(shifts)": imm}
+
+                except (ValueError, IndexError):
+                    return None
+
+
+
+
+
+
+
+
+
+#################################################################
 
 
 
@@ -379,6 +536,19 @@ class BennettFunctionality:
 
 
 #########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
