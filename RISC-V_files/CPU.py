@@ -464,6 +464,23 @@ class BennettWindow:
                     print(f"Jump Executed: {result}")
                     continue
 
+            elif opcode in ["beq", "bge", "bne", "ble"]:
+                result = engine.conditional_non_zero_branch(line,all_lines=lines)
+                if result is True:
+                    continue
+
+                if result is False:
+                    result = "handled"
+
+            elif opcode in ["beqz", "bgez", "bnez", "blez"]:
+                result = engine.conditional_zero_branch(line, all_lines=lines)
+                if result is True:
+                    continue
+
+                if result is False:
+                    result = "handled"
+
+
             elif opcode in ["sll","sla","sra"]:
                 result = engine.shifted_operations(line)
 
