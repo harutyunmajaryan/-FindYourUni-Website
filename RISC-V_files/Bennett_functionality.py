@@ -1,6 +1,5 @@
 
 
-
 class BennettFunctionality:
         def __init__(self,table_abi=None, table_rv32=None):
             self.registers = {f"x{i}": 0 for i in range(32)}
@@ -64,6 +63,7 @@ class BennettFunctionality:
 
             line = line.replace(",", " ")
             parts = line.split()
+            
 
             if len(parts) == 3 and parts[0] == "li":
                 target_reg = parts[1]
@@ -73,6 +73,9 @@ class BennettFunctionality:
                 try:
                     imm = int(parts[2])
                     hex_val = f"{imm:08X}"
+
+
+
 
                     for row_id in self.table_rv32.get_children():
                         if self.table_rv32.item(row_id)['values'][0] == target_reg:
@@ -647,10 +650,11 @@ class BennettFunctionality:
                 return None
 
             keyword = parts[0]
-            if keyword not in ["bnez","bgez","bnez","blez"]:
+            if keyword not in ["bnez","bgez","beqz","blez"]:
                 return None
 
             should_jump = False
+
             if keyword == "beqz" and len(parts) == 3:
                 try:
                     register1 = parts[1]
@@ -673,7 +677,7 @@ class BennettFunctionality:
                 except (ValueError, IndexError):
                     return None
 
-            elif keyword == "bnez" and len(parts) == 4:
+            elif keyword == "bnez" and len(parts) == 3:
                 try:
                     register1 = parts[1]
                     label = parts[2]
@@ -696,11 +700,10 @@ class BennettFunctionality:
                     return None
 
 
-            elif keyword == "blez" and len(parts) == 4:
+            elif keyword == "blez" and len(parts) == 3:
                 try:
                     register1 = parts[1]
-                    register2 = parts[2]
-                    label = parts[3]
+                    label = parts[2]
                     for row_id in self.table_rv32.get_children():
                         if self.table_rv32.item(row_id)['values'][0] == register1:
                             value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
@@ -719,11 +722,10 @@ class BennettFunctionality:
                 except (ValueError, IndexError):
                     return None
 
-            elif keyword == "bge" and len(parts) == 4:
+            elif keyword == "bgez" and len(parts) == 3:
                 try:
                     register1 = parts[1]
-                    register2 = parts[2]
-                    label = parts[3]
+                    label = parts[2]
                     for row_id in self.table_rv32.get_children():
                         if self.table_rv32.item(row_id)['values'][0] == register1:
                             value_in_register1 = str(self.table_rv32.item(row_id)['values'][1])
@@ -743,8 +745,24 @@ class BennettFunctionality:
                     return None
 
 
-
 #########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
