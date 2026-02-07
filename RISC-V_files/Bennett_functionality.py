@@ -1,5 +1,4 @@
 
-
 class BennettFunctionality:
         def __init__(self,table_abi=None, table_rv32=None):
             self.registers = {f"x{i}": 0 for i in range(32)}
@@ -72,17 +71,66 @@ class BennettFunctionality:
 
                 try:
                     imm = int(parts[2])
-                    hex_val = f"{imm:08X}"
-
-
-
+                    hex_val = f"{abs(imm):08X}"
 
                     for row_id in self.table_rv32.get_children():
                         if self.table_rv32.item(row_id)['values'][0] == target_reg:
                             if target_reg == "x0":
                                 self.table_rv32.item(row_id, values=(target_reg, "00000000", "...."))
                             else:
-                                self.table_rv32.item(row_id, values=(target_reg, hex_val, "...."))
+                                new_hex_value = str("")                          #because it prints -000000A or -F00FA123 in hex which is ILLEGAL we convert each nibble(4bit) in a pattern to print valid hex value for negative values
+                                if imm < 0:                                      #we check if out immediate value is negative
+                                  for nibble in hex_val:                         # if yes then nibble(nibble in this case is 4 bit pattern that is represented in hex lets say "A" or "2" or "F" and so on) will loop in hex_value
+                                    if nibble == "0" or nibble == "1":             # and then it will check if the first nibble is 1 it will convert into F
+                                        nibble = "F"                               # now our nibble is F instead 1 because the immediate is negative which should starts with F
+                                        new_hex_value = new_hex_value + nibble     #our new_hex_value(which is empty string) is doing concantination so "" + F = "F"
+                                    elif nibble == "2":                            #if not 1 then it should be either 2 or 3 or 4 until F so it will check individually
+                                        nibble = "E"                               #.... and so on
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "3":
+                                        nibble = "D"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "4":
+                                        nibble = "C"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "5":
+                                        nibble = "B"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "6":
+                                        nibble = "A"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "7":
+                                        nibble = "9"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "8":
+                                        nibble = "8"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "9":
+                                        nibble = "7"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "A":
+                                        nibble = "6"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "B":
+                                        nibble = "5"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "C":
+                                        nibble = "4"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "D":
+                                        nibble = "3"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "E":
+                                        nibble = "2"
+                                        new_hex_value = new_hex_value + nibble
+                                    elif nibble == "F":
+                                        nibble = "1"
+                                        new_hex_value = new_hex_value + nibble
+
+#so we got out new hex value!!!! which is converted into negative and valid bit pattern so instead of having -00000000A or -00000203 we will have something like FFFFFF2 or FFFFFFA2 and so on
+                                  self.table_rv32.item(row_id, values=(target_reg, new_hex_value, "...."))
+                                else:
+                                  self.table_rv32.item(row_id, values=(target_reg, hex_val, "...."))
                             break
 
                     for row_id in self.table_abi.get_children():
@@ -746,6 +794,22 @@ class BennettFunctionality:
 
 
 #########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
