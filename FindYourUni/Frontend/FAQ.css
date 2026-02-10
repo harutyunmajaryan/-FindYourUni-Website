@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #020617, #6366f1, #22c55e);
+    background-attachment: fixed;
+    color: #ffffff;
+    animation: fadeInUp 0.8s;
+    
+
+}
+
+
+h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-top: 10px;
+    letter-spacing: -2px;
+    margin-left: 400px;
+
+
+}
+h2 {
+    font-size: 32px;;
+    font-weight: 650;
+    margin-top: 60px;
+    letter-spacing: -2px;
+    margin-left: 10px;
+
+    color:   #ffffff;
+
+}
+p{
+    font-size: 25px;
+    margin-left: 13px;
+    padding-top: 15px;
+    opacity: 1;
+    color: #E0E0E0;
+
+}
+.last-p{
+    font-size: 25px;
+    margin-left: 13px;
+    padding-top: 15px;
+    opacity: 1;
+    color: #E0E0E0;
+ 
+    margin-bottom: 40px;
+
+}
+ul{
+    font-size: 20px;
+    margin-top: 10px;
+
+    margin-left: 20px;
+    margin-bottom: 40px;
+    padding:5px;
+}
+li{
+    color:#E0E0E0;
+    padding: 5px;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.heading2{
+   margin-top: 60px;
+   font-size: 30px;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    margin-left: 10px;
+    margin-top:20px;
+
+}
+
+button:hover {
+    background: white;
+    color: #020617;
+    transform: translateY(-5px);
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-out;
+}
+
+.tab1,.tab2,.tab3,.tab4{
+    max-width: 200px;
+    height: 55px;
+    font-size: 20px;
+    border-color: #b1f2f2;
+    
+
+}
+
+
+
+
+
+
+.tab_section {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            display: flex;
+           
+        }
+
+nav button {
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 25px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+
+        
+
+.tab_section{
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    height: 90px;
+    
+
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        padding: 40px 20px;
+    }
+}
+    
