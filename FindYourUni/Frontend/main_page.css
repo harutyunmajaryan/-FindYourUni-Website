@@ -1,0 +1,391 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #020617, #6366f1, #22c55e);
+    background-attachment: fixed;
+    color: #ffffff;
+    
+
+}
+
+
+h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-top: 10px;
+    letter-spacing: -2px;
+    margin-left: 400px;
+    animation: fadeInUp 0.8s;
+
+}
+p{
+    font-size: 25px;
+    margin-left: 500px;
+    padding-top: 15px;
+    opacity: 1;
+    color: #8fb0dd;
+    animation: fadeInUp 0.8s forwards 0.1s;
+}
+
+.form1{
+    margin-top:50px;
+    animation: fadeInUp 0.8s forwards 0.1s;
+}
+.form2{
+    margin-top:10px;
+    animation: fadeInUp 0.8s forwards 0.1s;
+}
+.form3{
+    margin-top:10px;
+    animation: fadeInUp 0.8s forwards 0.1s;
+}
+
+.label1{
+    margin-left:15px;
+    font-size: 25px;
+    margin-top:px;
+}
+
+fieldset, h2{
+    animation: fadeInUp 0.8s forwards 0.1s;
+}
+
+.entry1{
+    margin-left: 10px;
+    border-radius: 10%;
+
+}
+.entry2{
+    margin-left: 30px;
+}
+.entry3{
+    margin-left: 65px;
+}
+
+
+.label2{
+    margin-left:15px;
+    font-size: 25px;
+    margin-top:50px;
+    
+}
+.label3{
+    margin-left:15px;
+    font-size: 25px;
+    margin-top:50px;
+    
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.heading2{
+   margin-top: 60px;
+   font-size: 30px;
+}
+
+legend{
+    margin-top: 30px;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    margin-left: 10px;
+    margin-top:20px;
+
+}
+
+button:hover {
+    background: white;
+    color: #020617;
+    transform: translateY(-5px);
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-out;
+}
+
+.tab1,.tab2,.tab3,.tab4{
+    max-width: 200px;
+    height: 55px;
+    font-size: 20px;
+    border-color: #b1f2f2;
+    
+
+}
+
+
+
+
+.arrow-right{
+    margin-right: 100px;
+}
+
+.tab_section {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            display: flex;
+           
+        }
+
+nav button {
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 25px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        
+        .uni-carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 150px;           
+           
+        }
+
+        .h3-Manchester{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 240px;
+            margin-top: 10px;
+        }
+        .h3-Oxford{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 300px;
+            margin-top: 10px;
+        }
+        .h3-Imperial{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 270px;
+            margin-top: 10px;
+            
+        }
+        .h3-LSE{
+            justify-content: center;
+            font-size: 30px;
+            margin-left: 30px;
+            margin-top: 10px;
+
+        }
+        .h3-UCL{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 220px;
+            margin-top: 10px;
+
+        }
+        .h3-Cambridge{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 270px;
+            margin-top: 10px;
+        }
+
+        .h3-Edinburgh{
+            justify-content: center;
+            font-size: 32px;
+            margin-left: 280px;
+            margin-top: 10px;
+
+        }
+
+        .carousel-track {
+            display: flex;
+            overflow: hidden; 
+            min-width: 1000px;    
+            height: 800px;
+            scroll-behavior: smooth;
+            gap: 60px;
+            animation: fadeInUp 0.8s ;
+        }
+
+        .uni-card {
+            min-width: 900px;
+            height: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ;
+        }
+        
+
+        .uni-image {
+            width: 85%;
+            height: 600px;
+            margin-left: 0px;
+            margin-top:0px;
+            width: 900px;
+            
+        }
+          .uni-image2 {
+            width: 85%;
+            height: 600px;
+            margin-left: 0px;
+            margin-top:0px;
+            width: 1000px;
+            
+        }
+
+        .arrow {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+.tab_section{
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    height: 90px;
+    
+
+}
+
+.Your-Preferences{
+    margin-left: 543px;
+    font-size: 50px;
+    margin-top: 50px;
+}
+
+.Preferences{
+    margin-left: 580px;
+    font-size: 20px;
+    margin-top:60px;
+    margin-bottom:100px;
+    justify-content: center;
+    animation: fadeInUp 0.8s forwards 0.1s;
+    
+    
+}
+.pref-button{
+    height:80px;
+    width:180px;
+    font-size: 20px;
+    padding: 10px;
+}
+.user-counter {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff; 
+    opacity: 0.8;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #000000;
+    gap: 8px; 
+    margin-left:800px;
+    height: 60px;
+    width: 100px;
+}
+
+.user-counter i {
+    color: #000000; 
+    font-size: 1.1rem;
+    margin-left:11px;
+}
+
+.disclaimer-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 20px 0;
+    z-index: 9999;
+    border-top: 2px solid #00FFCC;
+    display: none; 
+}
+
+.disclaimer-paragraph{
+    margin-left:28px;
+}
+.disclaimer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.disclaimer-content h3 {
+    margin-top: 0;
+    color: #00FFCC;
+    font-size: 1.2rem;
+}
+
+.disclaimer-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: #E0E0E0;
+}
+
+.accept-btn {
+    background-color: #00FFCC;
+    color: #000;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.accept-btn:hover {
+    transform: scale(1.05);
+    background-color: #00ccaa;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        padding: 40px 20px;
+    }
+}
+    
