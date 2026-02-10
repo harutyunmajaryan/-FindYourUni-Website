@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FindYourUni</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="main_page.css">
+</head>
+<body>
+<div class = tab_section id = "buttons">
+    <nav>
+    <a href="Home.html">
+        <button class = 'tab1'>Home</button>
+    </a>
+    <a href = "FAQ.html">
+        <button class = 'tab2'>FAQ</button>
+    </a>
+    <a href = "About.html">
+        <button class = 'tab3'>About Us</button>
+    </a>
+    <a href = "Support.html">        
+        <button class = 'tab4'>Support</button>
+    </a> 
+        <nav class = "user-counter"> <i class="fas fa-user"></i> <span id="visitor-number">457</span></nav>
+        </ul>
+    </nav>
+</div>
+
+
+
+
+   <div id="disclaimer-overlay" class="disclaimer-box">
+    <div class="disclaimer-content">
+        <h3><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h3>
+        <p class = "disclaimer-paragraph">
+            FindYourUni provides recommendations based on the information you provide. 
+            These results are a guide only and do not guarantee admission. 
+            Please check official university websites for the most accurate entry requirements.
+        </p>
+        <button class="accept-btn" onclick="closeDisclaimer()">I Understand</button>
+    </div>
+</div>
+
+<script>
+window.onload = function() {
+   
+    if (!sessionStorage.getItem('disclaimerAccepted')) {
+        document.getElementById('disclaimer-overlay').style.display = 'block';
+    }
+};
+
+function closeDisclaimer() {
+    const disclaimer = document.getElementById('disclaimer-overlay');
+    disclaimer.style.display = 'none';
+
+    sessionStorage.setItem('disclaimerAccepted', 'true');
+}
+</script>
+
+
+    <h1>Welcome to FindYourUni</h1>
+    <p>A Platform where you can find your ideal university</p>
+    
+
+
+<section class="uni-carousel">
+    <button class="arrow left-arrow">&#10094;</button>
+    
+    <div class="carousel-track">
+        <div class="uni-card">
+            <img src="Uni-of-Manchester.jpg" alt="Manchester" class="uni-image">
+            <div class="uni-info">
+                <h3 class = "h3-Manchester">The University of Manchester</h3>
+            </div>
+        </div>
+
+        <div class="uni-card">
+            <img src="Uni-of-Oxford.jpg" alt="Oxford" class="uni-image2">
+            <div class="uni-info">
+                <h3 class="h3-Oxford">University of Oxford</h3>
+            </div>
+        </div>
+        <div class="uni-card">
+            <img src="Uni-of-Cambridge.jpg" alt="Cambridge" class="uni-image">
+            <div class="uni-info">
+                <h3 class="h3-Cambridge">University of Cambridge</h3>
+            </div>
+        </div>
+        <div class="uni-card">
+            <img src="Uni-of-Imperial.jpg" alt="Imperial" class="uni-image">
+            <div class="uni-info">
+                <h3 class="h3-Imperial">Imperial College London</h3>
+            </div>
+        </div>
+        <div class="uni-card">
+            <img src="Uni-of-LSE.jpg" alt="LSE" class="uni-image">
+            <div class="uni-info">
+                <h3 class="h3-LSE">The London School of Economics and Political Science (LSE)</h3>
+            </div>
+        </div>
+        <div class="uni-card">
+            <img src="UCL.jpg" alt="UCL" class="uni-image">
+            <div class="uni-info">
+                <h3 class="h3-UCL">University College London (UCL)</h3>
+            </div>
+        </div>
+        <div class="uni-card">
+            <img src="uni-of-edinburgh.jpg" alt="Edinburgh" class="uni-image">
+            <div class="uni-info">
+                <h3 class="h3-Edinburgh">University of Edinburgh</h3>
+            </div>
+        </div>
+    </div>
+
+    <button class="arrow right-arrow">&#10095;</button>
+</section>
+
+<script>
+    const track = document.querySelector('.carousel-track');
+    const nextBtn = document.querySelector('.right-arrow');
+    const prevBtn = document.querySelector('.left-arrow');
+
+    nextBtn.addEventListener('click', () => {
+        const cardWidth = track.querySelector('.uni-card').offsetWidth + 20; 
+        track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+        const cardWidth = track.querySelector('.uni-card').offsetWidth + 20;
+        track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    });
+</script>
+
+<h2 class = "Your-Preferences">Find Your University</h2>
+<div class = "Preferences" id = "pref-buttons">
+   <a href = "Submit_Grades.html"> 
+    <button class="pref-button">Submit Grades</button>
+   </a>
+   <a href = "My_Shortlist.html"> 
+    <button class = "pref-button">My Shortlist</button>
+   </a>
+</div>
+
+</body>
+</html>
